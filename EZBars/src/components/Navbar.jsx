@@ -12,13 +12,7 @@ const Navbar = () => {
 
             <img src={logo} className='h-[90px]'/>{/*Logo Left*/}
 
-            <div className='hidden md:flex items-center'>{/*Menu Options*/}
-            <ul className='flex gap-4'>{/*List Menu Options*/}
-                <li>Home</li>
-                <li>About</li>
-                <li>Support</li>
-            </ul>
-        </div>
+           
 
         <div className='hidden md:flex'>{/*End Buttons >Right */}
         <button className='gap-2 px-6'>Login</button>

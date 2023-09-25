@@ -2,10 +2,16 @@ import logo from "./logo1.png";
 import burg from "./burg.svg";
 import close from "./close.svg";
 import heroimage from "./hero.jpg";
+import FBLogo from "./FBLogo.svg"
+import TwitterLogo from "./TwitterLogo.svg"
+import LILogo from "./LILogo.svg"
 
 export {
     logo,
     burg,
     close,
-    heroimage
+    heroimage,
+    FBLogo,
+    TwitterLogo,
+    LILogo,
 }
