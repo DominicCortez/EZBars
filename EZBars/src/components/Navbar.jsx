@@ -1,10 +1,21 @@
 import React, { useState } from 'react'
 import { logo,burg,close } from '../assets'
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
     const [toggle,setToggle]=useState(false)
     const handleClick = ()=> setToggle(!toggle)
+
+    const navigate = useNavigate();
+
+    const navigateToLogin = () => {
+        navigate('/login');
+    };
+
+    const navigateSignup = () => {
+        navigate('/signup');
+    };
 
   return (
     <div className='w-full h-[80px] bg-white border-b'>  {/*Main Navbar*/}
@@ -15,8 +26,8 @@ const Navbar = () => {
            
 
         <div className='hidden md:flex'>{/*End Buttons >Right */}
-        <button className='gap-2 px-6'>Login</button>
-        <button className=' px-8  py-3 rounded-md bg-[#FE8C37] text-white font-bold'>Sign Up</button>
+        <button onClick={navigateToLogin} className='gap-2 px-6'>Login</button>
+        <button onClick={navigateSignup} className=' px-8  py-3 rounded-md bg-[#FE8C37] text-white font-bold'>Sign Up</button>
         </div>
 
         <div className='md:hidden' onClick={handleClick}>{/*If screen small create burger*/}
