@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ErrorPage from './pages/ErrorPage';
+import Post from './pages/Post'
+import DisplayInventory from './pages/DisplayInventory';
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
         <Route path="/home" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path="/select/:id" element={<Post/>}/>
+        <Route path="/inventory" element={<DisplayInventory/>}/> 
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
       </BrowserRouter>
