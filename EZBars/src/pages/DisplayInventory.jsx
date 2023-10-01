@@ -40,17 +40,44 @@ const onSubmit = (data) => {
 });
 };
 
+const deleteItem = (id) => {
+  axios.delete(`http://localhost:3001/inventory/${id}`).then(()=>{
+    alert("Successfully deleted")
+  })
+}
+
+const editItem = (option,id) => {
+  if (option === "itemcategory"){
+    let newItemCategory = prompt("Enter new Category: ")
+    axios.put("http://localhost:3001/inventory/itemcategory",{newItemCategory : newItemCategory, id : id})
+  }else if (option === "itemname"){
+    let newItemName = prompt("Enter new Item Name: ")
+    axios.put("http://localhost:3001/inventory/itemname",{newItemName : newItemName, id : id})
+  }
+  else if (option === "itemdescription"){
+    let newItemDescription = prompt("Enter new Item Description: ")
+    axios.put("http://localhost:3001/inventory/itemdescription",{newItemDescription : newItemDescription, id : id})
+  }
+  else if (option === "itemnumber"){
+    let newItemNumber = prompt("Enter new ItemNumber: ")
+    axios.put("http://localhost:3001/inventory/itemnumber",{newItemNumber : newItemNumber, id : id})
+  }else{
+    let newItemQuantity = prompt("Enter new Item Quantity: ")
+    axios.put("http://localhost:3001/inventory/itemquantity",{newItemQuantity : newItemQuantity, id : id})
+  }
+}
 
   return (
     <div>
         <Navbar/>
         {listOfItems.map ((value, key)=> {
           return <div className="general">
-            <div className="itemcategory">{value.itemcategory}</div>
-            <div className="itemname">{value.itemname}</div>
-            <div className="itemdescription">{value.itemdescription}</div>
-            <div className="itemnumber">{value.itemnumber}</div>
-            <div className="itemquantity">{value.itemquantity}</div>
+            <div className="itemcategory" onClick={() => {editItem("itemcategory",value.id)}}>{value.itemcategory}</div>
+            <div className="itemname"onClick={() => {editItem("itemname",value.id)}}>{value.itemname}</div>
+            <div className="itemdescription"onClick={() => {editItem("itemdescription",value.id)}}>{value.itemdescription}</div>
+            <div className="itemnumber"onClick={() => {editItem("itemnumber",value.id)}}>{value.itemnumber}</div>
+            <div className="itemquantity"onClick={() => {editItem("itemquantity",value.id)}}>{value.itemquantity}</div>
+            <button onClick={() => {deleteItem}}className='bg-gray-500'>Delete</button>
             </div>
         })}
         <div>
