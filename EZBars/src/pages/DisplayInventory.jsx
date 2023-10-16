@@ -42,7 +42,7 @@ const onSubmit = (data) => {
 
 const deleteItem = (id) => {
   axios.delete(`http://localhost:3001/inventory/${id}`).then(()=>{
-    alert("Successfully deleted")
+    
   })
 }
 
@@ -77,7 +77,7 @@ const editItem = (option,id) => {
             <div className="itemdescription"onClick={() => {editItem("itemdescription",value.id)}}>{value.itemdescription}</div>
             <div className="itemnumber"onClick={() => {editItem("itemnumber",value.id)}}>{value.itemnumber}</div>
             <div className="itemquantity"onClick={() => {editItem("itemquantity",value.id)}}>{value.itemquantity}</div>
-            <button onClick={() => {deleteItem}}className='bg-gray-500'>Delete</button>
+            <button onClick={() => {deleteItem(value.id);alert("Successfully deleted, Please Reflresh the Page")}}className='bg-gray-500'>Delete</button>
             </div>
         })}
         <div>

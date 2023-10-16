@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import ErrorPage from './pages/ErrorPage';
 import Post from './pages/Post'
 import DisplayInventory from './pages/DisplayInventory';
+import MainMenu from './pages/MainMenu';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/home" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path="/main" element={<MainMenu/>}/>
         <Route path="/select/:id" element={<Post/>}/>
         <Route path="/inventory" element={<DisplayInventory/>}/> 
         <Route path="*" element={<ErrorPage/>}/>

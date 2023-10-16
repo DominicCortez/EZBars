@@ -4,6 +4,8 @@ import Footer from "./Footer";
 import FooterEnd from "./FooterEnd";
 import LoginForm from "./LoginForm";
 import SignupForm from './SignupForm'
+import NavbarMain from './NavbarMain';
+import MainBody from './MainBody'
 
 export {
 Navbar,
@@ -12,4 +14,6 @@ Footer,
 FooterEnd,
 LoginForm,
 SignupForm,
+NavbarMain,
+MainBody,
 }
