@@ -41,6 +41,11 @@ router.put("/itemquantity" , async (req, res) => {
     await sales.update({itemquantity: newItemQuantity},{where:{id : id} })
     res.json(newItemQuantity);
 });
+router.put("/itemprice" , async (req, res) => {
+    const {newItemPrice , id} = req.body;
+    await inventory.update({itemprice: newItemPrice},{where:{id : id} })
+    res.json(newItemQuantity);
+});
 
 
 
