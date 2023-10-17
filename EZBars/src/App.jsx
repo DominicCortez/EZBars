@@ -7,6 +7,7 @@ import ErrorPage from './pages/ErrorPage';
 import Post from './pages/Post'
 import DisplayInventory from './pages/DisplayInventory';
 import MainMenu from './pages/MainMenu';
+import Sales from './pages/Sales';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/main" element={<MainMenu/>}/>
         <Route path="/select/:id" element={<Post/>}/>
         <Route path="/inventory" element={<DisplayInventory/>}/> 
+        <Route path="/sales" element={<Sales/>}/> 
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
       </BrowserRouter>

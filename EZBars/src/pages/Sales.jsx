@@ -18,15 +18,13 @@ import {
   Badge,
 } from "@tremor/react";
 
-
-
-const DisplayInventory = () => {
+const Sales = () => {
     const [listOfItems, setListOfItems] = useState([]);
     const [newItemCategory, setNewItemCategory] = useState("")
     let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/inventory").then((response) => {
+    axios.get("http://localhost:3001/sales").then((response) => {
         setListOfItems(response.data);
     });
   }, []);
@@ -51,7 +49,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const onSubmit = (data) => {
-    axios.post("http://localhost:3001/inventory", data, newItemCategory).then((response) => {
+    axios.post("http://localhost:3001/sales", data, newItemCategory).then((response) => {
     const itemToAdd = {newItemCategory}
     setListOfItems([...listOfItems, itemToAdd])
     window.location.reload(false)
@@ -59,7 +57,7 @@ const onSubmit = (data) => {
 };
 
 const deleteItem = (id) => {
-  axios.delete(`http://localhost:3001/inventory/${id}`).then(()=>{
+  axios.delete(`http://localhost:3001/sales/${id}`).then(()=>{
     
   })
 }
@@ -67,32 +65,31 @@ const deleteItem = (id) => {
 const editItem = (option,id) => {
   if (option === "itemcategory"){
     let newItemCategory = prompt("Enter new Category: ")
-    axios.put("http://localhost:3001/inventory/itemcategory",{newItemCategory : newItemCategory, id : id})
+    axios.put("http://localhost:3001/sales/itemcategory",{newItemCategory : newItemCategory, id : id})
   }else if (option === "itemname"){
     let newItemName = prompt("Enter new Item Name: ")
-    axios.put("http://localhost:3001/inventory/itemname",{newItemName : newItemName, id : id})
+    axios.put("http://localhost:3001/sales/itemname",{newItemName : newItemName, id : id})
   }
   else if (option === "itemdescription"){
     let newItemDescription = prompt("Enter new Item Description: ")
-    axios.put("http://localhost:3001/inventory/itemdescription",{newItemDescription : newItemDescription, id : id})
+    axios.put("http://localhost:3001/sales/itemdescription",{newItemDescription : newItemDescription, id : id})
   }
   else if (option === "itemnumber"){
     let newItemNumber = prompt("Enter new ItemNumber: ")
-    axios.put("http://localhost:3001/inventory/itemnumber",{newItemNumber : newItemNumber, id : id})
+    axios.put("http://localhost:3001/sales/itemnumber",{newItemNumber : newItemNumber, id : id})
   }else if(option === "itemquantity"){
     let newItemQuantity = prompt("Enter new Item Quantity: ")
-    axios.put("http://localhost:3001/inventory/itemquantity",{newItemQuantity : newItemQuantity, id : id})
+    axios.put("http://localhost:3001/sales/itemquantity",{newItemQuantity : newItemQuantity, id : id})
   }else{
     let newItemPrice = prompt("Enter new Item Price: ")
-    axios.put("http://localhost:3001/inventory/itemprice",{newItemPrice : newItemPrice, id : id})
+    axios.put("http://localhost:3001/sales/itemprice",{newItemPrice : newItemPrice, id : id})
   }
 }
 
   return (
     <div>
         <NavbarMain/>
-
-<Card>
+        <Card>
     <Title>List of Sales</Title>
     <Table className="mt-5">
       <TableHead>
@@ -133,7 +130,6 @@ const editItem = (option,id) => {
       </TableBody>
     </Table>
   </Card>
-        
         <div>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema} onChange={ (event) =>{setNewItemCategory(event.target.value)}}>
             <Form>
@@ -151,4 +147,4 @@ const editItem = (option,id) => {
   )
 }
 
-export default DisplayInventory
+export default Sales
