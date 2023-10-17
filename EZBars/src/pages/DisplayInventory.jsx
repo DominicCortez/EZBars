@@ -17,12 +17,14 @@ const DisplayInventory = () => {
     });
   }, []);
 
+
   const initialValues = {
     itemcategory: "",
     itemname: "",
     itemdescription: "",
     itemnumber: "",
     itemquantity: "",
+    itemprice: "",
 }
 const validationSchema = Yup.object().shape({
     itemcategory:Yup.string().required(),
@@ -30,6 +32,7 @@ const validationSchema = Yup.object().shape({
     itemdescription:Yup.string().required(),
     itemnumber:Yup.string().required(),
     itemquantity:Yup.string().required(),
+    itemprice:Yup.string().required(),
 
 })
 
@@ -37,6 +40,7 @@ const onSubmit = (data) => {
     axios.post("http://localhost:3001/inventory", data, newItemCategory).then((response) => {
     const itemToAdd = {newItemCategory}
     setListOfItems([...listOfItems, itemToAdd])
+    window.location.reload(false)
 });
 };
 
@@ -61,9 +65,12 @@ const editItem = (option,id) => {
   else if (option === "itemnumber"){
     let newItemNumber = prompt("Enter new ItemNumber: ")
     axios.put("http://localhost:3001/inventory/itemnumber",{newItemNumber : newItemNumber, id : id})
-  }else{
+  }else if(option === "itemquantity"){
     let newItemQuantity = prompt("Enter new Item Quantity: ")
     axios.put("http://localhost:3001/inventory/itemquantity",{newItemQuantity : newItemQuantity, id : id})
+  }else{
+    let newItemPrice = prompt("Enter new Item Price: ")
+    axios.put("http://localhost:3001/inventory/itemprice",{newItemPrice : newItemPrice, id : id})
   }
 }
 
@@ -77,7 +84,8 @@ const editItem = (option,id) => {
             <div className="itemdescription"onClick={() => {editItem("itemdescription",value.id)}}>{value.itemdescription}</div>
             <div className="itemnumber"onClick={() => {editItem("itemnumber",value.id)}}>{value.itemnumber}</div>
             <div className="itemquantity"onClick={() => {editItem("itemquantity",value.id)}}>{value.itemquantity}</div>
-            <button onClick={() => {deleteItem(value.id);alert("Successfully deleted, Please Reflresh the Page")}}className='bg-gray-500'>Delete</button>
+            <div className="itemprice"onClick={() => {editItem("itemprice",value.id)}}>{value.itemprice}</div>
+            <button onClick={() => {deleteItem(value.id);alert("Successfully deleted, Please Reflresh the Page");window.location.reload(false)}}className='bg-gray-500'>Delete</button>
             </div>
         })}
         <div>
@@ -88,6 +96,7 @@ const editItem = (option,id) => {
             <Field id="inputCreateitemdescription" name="itemdescription" placeholder="itemdescription"/>
             <Field id="inputCreateitemnumber" name="itemnumber" placeholder="itemnumber"/>
             <Field id="inputCreateitemquantity" name="itemquantity" placeholder="itemquantity"/>
+            <Field id="inputCreateitemprice" name="itemprice" placeholder="itemprice"/>
             <button type="submit"onClick={() => alert('Item Added Please refresh the page')} >Submit</button>
             </Form>
             </Formik>

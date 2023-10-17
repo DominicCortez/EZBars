@@ -5,6 +5,7 @@ import {
   initTE,
 } from "tw-elements";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 initTE({ Input, Ripple });
 
@@ -12,6 +13,9 @@ const LoginForm = () => {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+
+  const navigate = useNavigate();
+    
 
 
   const login = () => {
@@ -22,7 +26,7 @@ const LoginForm = () => {
       } else {
         sessionStorage.setItem("accessToken", response.data)
       }
-      
+      navigate('/main');
     })
   };
 
