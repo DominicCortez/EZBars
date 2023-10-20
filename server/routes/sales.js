@@ -3,6 +3,42 @@ const router = express.Router()
 const { sales } = require('../models')
 const { Op } = require('sequelize');
 
+
+router.get("/dailySales", async (req, res) => {
+    try {
+      const today = new Date();
+      const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+  
+      // Calculate the start date as 10 days ago
+      const startDate = new Date();
+      startDate.setDate(today.getDate() - 10);
+      const startOfDay = new Date(startDate.setHours(0, 0, 0, 0));
+  
+      const dailySales = await sales.findAll({
+        attributes: ['itemquantity', 'itemprice', 'updatedAt'],
+        where: {
+          updatedAt: {
+            [Op.between]: [startOfDay, endOfDay],
+          },
+        },
+      });
+  
+      const salesData = dailySales.map((sale) => {
+        const dateKey = sale.updatedAt.toISOString().split('T')[0]; // Use the date as the key
+        const salesForDay = sale.itemquantity * sale.itemprice;
+  
+        return { day: dateKey, sales: salesForDay };
+      });
+  
+      res.json(salesData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  
+
 router.get("/todaySales", async (req, res) => {
     try {
         const today = new Date();
