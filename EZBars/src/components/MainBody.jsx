@@ -5,57 +5,10 @@ import axios from "axios";
 import  {useEffect, useState} from 'react'
 import {graph1, graph2} from '../assets'
 
- {/* Line Graph Data*/} 
-const linedata = [
-  {
-    year: 1970,
-    "Inventory": 2.04,
-    "Sales": 1.53,
-  },
-  {
-    year: 1971,
-    "Inventory": 1.96,
-    "Sales": 1.58,
-  },
-  {
-    year: 1972,
-    "Inventory": 1.96,
-    "Sales": 1.61,
-  },
-  {
-    year: 1973,
-    "Inventory": 1.93,
-    "Sales": 1.61,
-  },
-  {
-    year: 1974,
-    "Inventory": 1.88,
-    "Sales": 1.67,
-  },
-  //...
-];
 
- {/* Items Data */} 
-const chartdata = [
-  {
-    name: "Week New",
-    "Sales": 2488,
-  },
-  {
-    name: "Week Old",
-    "Sales": 1445,
-  },
-  {
-    name: "Day New",
-    "Sales": 743,
-  },
-  {
-    name: "Day Old",
-    "Sales": 743,
-  },
-];
 
-const valueFormatter = (number) => `₱ ${new Intl.NumberFormat("en-PH").format(number).toString()}`;
+
+
 
  {/*Start of Site Body */} 
 const MainBody = () => {
@@ -72,6 +25,11 @@ const navigateSales = () => {
 
   const [recentlyAddedItems, setRecentlyAddedItems] = useState([]);
   const [itemsForRestock, setItemsForRestock] = useState([]);
+  const [today, setToday] = useState([]);
+  const [yesterday, setYesterday] = useState([]);
+  const [thisWeek, setThisWeek] = useState([]);
+  const [lastWeek, setLastWeek] = useState([]);
+  const [dailySales, setDailySales] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:3001/inventory/latestitems").then((response) => {
@@ -85,7 +43,53 @@ const navigateSales = () => {
     });
   }, []);
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales/todaySales").then((response) => {
+        setToday(response.data)
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales/yesterdaySales").then((response) => {
+        setYesterday(response.data)
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales/thisWeekSales").then((response) => {
+        setThisWeek(response.data)
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales//lastWeekSales").then((response) => {
+        setLastWeek(response.data)
+    });
+  }, []);
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales/dailySales").then((response) => {
+        setDailySales(response.data)
+    });
+  }, []);
+
+  const chartdata = [
+    {
+      name: "This Week",
+      "Sales": thisWeek.total || 0,
+    },
+    {
+      name: "Last Week",
+      "Sales": lastWeek.total || 0,
+    },
+    {
+      name: "Today",
+      "Sales": today.total || 0,
+    },
+    {
+      name: "Yesterday",
+      "Sales": yesterday.total || 0,
+    },
+  ];
+  const valueFormatter = (number) => `₱ ${new Intl.NumberFormat("en-PH").format(number).toString()}`;
+  
   return (
     <div className='flex'>
       <div className="w-1/4 p-4 ml-4 mt-4">
@@ -131,10 +135,10 @@ const navigateSales = () => {
         <Title>Comparison of Sales and Inventory</Title>
         <LineChart
           className="mt-6"
-          data={linedata}
-          index="year"
-          categories={["Inventory", "Sales"]}
-          colors={["emerald", "gray"]}
+          data={dailySales}
+          index="day"
+          categories={["sales"]}
+          colors={["blue"]}
           valueFormatter={valueFormatter}
           yAxisWidth={40}
         />
