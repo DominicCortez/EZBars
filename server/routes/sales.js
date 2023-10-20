@@ -1,6 +1,134 @@
 const express = require('express')
 const router = express.Router()
 const { sales } = require('../models')
+const { Op } = require('sequelize');
+
+router.get("/todaySales", async (req, res) => {
+    try {
+        const today = new Date();
+
+        const todaySales = await sales.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.between]: [new Date(today.setHours(0, 0, 0, 0)), new Date(today.setHours(23, 59, 59, 999))],
+                },
+            },
+        });
+        const salesWithTotal = todaySales.map((sale) => ({
+            id: sale.id,
+            itemname: sale.itemname,
+            itemquantity: sale.itemquantity,
+            itemprice: sale.itemprice,
+            updatedAt: sale.updatedAt,
+            total: sale.itemquantity * sale.itemprice,
+        }));
+
+        const totalOfAllItems = salesWithTotal.reduce((total, sale) => total + sale.total, 0);
+
+        res.json({total: totalOfAllItems,});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get("/yesterdaySales", async (req, res) => {
+    try {
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+
+        const yesterdaySales = await sales.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.between]: [new Date(yesterday.setHours(0, 0, 0, 0)), new Date(yesterday.setHours(23, 59, 59, 999))],
+                },
+            },
+        });
+        const salesWithTotal = yesterdaySales.map((sale) => ({
+            id: sale.id,
+            itemname: sale.itemname,
+            itemquantity: sale.itemquantity,
+            itemprice: sale.itemprice,
+            updatedAt: sale.updatedAt,
+            total: sale.itemquantity * sale.itemprice,
+        }));
+
+        const totalOfAllItems = salesWithTotal.reduce((total, sale) => total + sale.total, 0);
+
+        res.json({total: totalOfAllItems,});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get("/thisWeekSales", async (req, res) => {
+    try {
+        const today = new Date();
+        const thisWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+
+        const thisWeekSales = await sales.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.between]: [new Date(thisWeekStart.setHours(0, 0, 0, 0)), new Date(today.setHours(23, 59, 59, 999))],
+                },
+            },
+        });
+        const salesWithTotal = thisWeekSales.map((sale) => ({
+            id: sale.id,
+            itemname: sale.itemname,
+            itemquantity: sale.itemquantity,
+            itemprice: sale.itemprice,
+            updatedAt: sale.updatedAt,
+            total: sale.itemquantity * sale.itemprice,
+        }));
+        const totalOfAllItems = salesWithTotal.reduce((total, sale) => total + sale.total, 0);
+
+        res.json({total: totalOfAllItems,});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+router.get("/lastWeekSales", async (req, res) => {
+    try {
+        const today = new Date();
+        const lastWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() - 7);
+        const lastWeekEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() - 1);
+
+        const lastWeekSales = await sales.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.between]: [new Date(lastWeekStart.setHours(0, 0, 0, 0)), new Date(lastWeekEnd.setHours(23, 59, 59, 999))],
+                },
+            },
+        });
+const salesWithTotal = lastWeekSales.map((sale) => ({
+            id: sale.id,
+            itemname: sale.itemname,
+            itemquantity: sale.itemquantity,
+            itemprice: sale.itemprice,
+            updatedAt: sale.updatedAt,
+            total: sale.itemquantity * sale.itemprice,
+        }));
+
+        const totalOfAllItems = salesWithTotal.reduce((total, sale) => total + sale.total, 0);
+
+        res.json({total: totalOfAllItems,});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
 
 router.get("/", async (req, res) =>{
     const listOfItems = await sales.findAll();

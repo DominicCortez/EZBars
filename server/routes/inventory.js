@@ -1,6 +1,25 @@
 const express = require('express')
 const router = express.Router()
 const { inventory } = require('../models')
+const { Op } = require('sequelize');
+
+router.get("/lowQuantityItems", async (req, res) => {
+    try {
+        const lowQuantityItems = await inventory.findAll({
+            attributes: ['itemname'],
+            where: {
+                itemquantity: {
+                    [Op.lte]: 15, // Op.lte means less than or equal to
+                },
+            },
+        });
+
+        res.json(lowQuantityItems);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 router.get("/", async (req, res) =>{
     const listOfItems = await inventory.findAll();
