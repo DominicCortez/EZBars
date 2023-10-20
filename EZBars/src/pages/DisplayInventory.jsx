@@ -93,7 +93,7 @@ const editItem = (option,id) => {
         <NavbarMain/>
 
 <Card>
-    <Title>List of Sales</Title>
+    <Title><button>Add Item</button></Title>
     <Table className="mt-5">
       <TableHead>
         <TableRow>
@@ -143,7 +143,7 @@ const editItem = (option,id) => {
             <Field id="inputCreateitemnumber" name="itemnumber" placeholder="itemnumber"/>
             <Field id="inputCreateitemquantity" name="itemquantity" placeholder="itemquantity"/>
             <Field id="inputCreateitemprice" name="itemprice" placeholder="itemprice"/>
-            <button type="submit"onClick={() => alert('Item Added Please refresh the page')} >Submit</button>
+            <button type="submit" >Submit</button>
             </Form>
             </Formik>
         </div>
