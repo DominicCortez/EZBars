@@ -13,8 +13,33 @@ router.post("/" , async (req, res) => {
     res.json(inventoryreq)
 });
 
+router.get("/price", async (req, res) => {
+    try {
+        const allItemsDetails = await inventory.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice'],
+        });
 
+        res.json(allItemsDetails);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
+router.get("/latestItems", async (req, res) => {
+    try {
+        const latestItems = await inventory.findAll({
+            attributes: ['updatedAt', 'itemname', 'itemquantity'],
+            order: [['updatedAt', 'DESC']],
+            limit: 10,
+        });
+
+        res.json(latestItems);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 router.put("/itemcategory" , async (req, res) => {
     const {newItemCategory , id} = req.body;

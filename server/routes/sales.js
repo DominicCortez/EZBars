@@ -13,7 +13,18 @@ router.post("/" , async (req, res) => {
     res.json(salesreq)
 });
 
+router.get("/price", async (req, res) => {
+    try {
+        const allItemsDetails = await sales.findAll({
+            attributes: ['id', 'itemquantity', 'itemprice'],
+        });
 
+        res.json(allItemsDetails);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 router.put("/itemcategory" , async (req, res) => {
