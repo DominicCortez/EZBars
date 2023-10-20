@@ -3,6 +3,7 @@ import { Card, Metric, Text, Title, BarChart, Subtitle, LineChart, List, ListIte
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import  {useEffect, useState} from 'react'
+import {graph1, graph2} from '../assets'
 
  {/* Line Graph Data*/} 
 const linedata = [
@@ -54,7 +55,7 @@ const chartdata = [
   },
 ];
 
-const valueFormatter = (number) => `P ${new Intl.NumberFormat("us").format(number).toString()}`;
+const valueFormatter = (number) => `₱ ${new Intl.NumberFormat("en-PH").format(number).toString()}`;
 
  {/*Start of Site Body */} 
 const MainBody = () => {
@@ -70,10 +71,17 @@ const navigateSales = () => {
   };
 
   const [recentlyAddedItems, setRecentlyAddedItems] = useState([]);
+  const [itemsForRestock, setItemsForRestock] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:3001/inventory/latestitems").then((response) => {
         setRecentlyAddedItems(response.data)
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/inventory/lowQuantityItems").then((response) => {
+        setItemsForRestock(response.data)
     });
   }, []);
 
@@ -83,14 +91,16 @@ const navigateSales = () => {
       <div className="w-1/4 p-4 ml-4 mt-4">
         <div className='h-1/2 p-4' >
       <Card className="max-w-xs mx-auto h-1/2 p-4" decoration="top" decorationColor="orange" onClick={navigateToInventory}>
-        <Text>Inventory</Text>
-        <Metric>$ 34,743</Metric>
+        <Text>Click to manage</Text>
+        <Metric>Inventory</Metric>
+        <img className='relative h-[130px] mx-auto' src={graph2}/>
       </Card>
       </div>
       <div className='h-1/2 p-4' >
       <Card className="max-w-xs mx-auto p-4 h-1/2" decoration="top" decorationColor="orange" onClick={navigateSales}>
-        <Text>Sales</Text>
-        <Metric>$ 34,743</Metric>
+        <Text>Click to manage</Text>
+        <Metric>Sales</Metric>
+        <img className='relative h-[130px] mx-auto' src={graph2}/>
       </Card>
       </div>
       </div>
@@ -146,8 +156,29 @@ const navigateSales = () => {
         </List>
       </Card>
       </div>
+      
+
+      
+        <div className='p-4'> 
+      <Card className="max-w-xs">
+        <Title>Items for Restocking</Title>
+        <List>
+        {itemsForRestock.map((item) => (
+                <ListItem key={item.id}>
+                  <span>{item.itemname}</span>
+
+                </ListItem>
+              ))}
+        </List>
+      </Card>
       </div>
+      </div>
+      
+
+
     </div>
+
+    
   )
 }
 
