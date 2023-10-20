@@ -1,33 +1,8 @@
 import React from 'react'
 import { Card, Metric, Text, Title, BarChart, Subtitle, LineChart, List, ListItem } from "@tremor/react";
 import { useNavigate } from 'react-router-dom';
- {/* List of Recently Added Items*/} 
-const cities = [
-  {
-    city: "Athens",
-    rating: "2 open PR",
-  },
-  {
-    city: "Luzern",
-    rating: "1 open PR",
-  },
-  {
-    city: "Zürich",
-    rating: "0 open PR",
-  },
-  {
-    city: "Vienna",
-    rating: "1 open PR",
-  },
-  {
-    city: "Ermatingen",
-    rating: "0 open PR",
-  },
-  {
-    city: "Lisbon",
-    rating: "0 open PR",
-  },
-];
+import axios from "axios";
+import  {useEffect, useState} from 'react'
 
  {/* Line Graph Data*/} 
 const linedata = [
@@ -79,7 +54,7 @@ const chartdata = [
   },
 ];
 
-const valueFormatter = (number) => `$ ${new Intl.NumberFormat("us").format(number).toString()}`;
+const valueFormatter = (number) => `P ${new Intl.NumberFormat("us").format(number).toString()}`;
 
  {/*Start of Site Body */} 
 const MainBody = () => {
@@ -94,6 +69,13 @@ const navigateSales = () => {
     navigate('/sales');
   };
 
+  const [recentlyAddedItems, setRecentlyAddedItems] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/inventory/latestitems").then((response) => {
+        setRecentlyAddedItems(response.data)
+    });
+  }, []);
 
 
   return (
@@ -155,12 +137,12 @@ const navigateSales = () => {
       <Card className="max-w-xs">
         <Title>Recently Added Items</Title>
         <List>
-          {cities.map((item) => (
-            <ListItem key={item.city}>
-              <span>{item.city}</span>
-              <span>{item.rating}</span>
-            </ListItem>
-          ))}
+        {recentlyAddedItems.map((item) => (
+                <ListItem key={item.id}>
+                  <span>{item.itemname}</span>
+                  <span>{item.itemquantity}</span>
+                </ListItem>
+              ))}
         </List>
       </Card>
       </div>
