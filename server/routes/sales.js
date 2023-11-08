@@ -222,7 +222,29 @@ router.put("/itemprice" , async (req, res) => {
     res.json(newItemQuantity);
 });
 
+router.get("/fastSellingItems", async (req, res) => {
+    try {
+        const today = new Date();
+        const lastWeekStart = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() - 7);
 
+        const highQuantityItems = await sales.findAll({
+            attributes: ['id', 'itemname', 'itemquantity', 'updatedAt'],
+            where: {
+                itemquantity: {
+                    [Op.gte]: 30,
+                },
+                updatedAt: {
+                    [Op.between]: [new Date(lastWeekStart.setHours(0, 0, 0, 0)), new Date(today.setHours(23, 59, 59, 999))],
+                },
+            },
+        });
+
+        res.json(highQuantityItems);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 
 
