@@ -30,6 +30,13 @@ const navigateSales = () => {
   const [thisWeek, setThisWeek] = useState([]);
   const [lastWeek, setLastWeek] = useState([]);
   const [dailySales, setDailySales] = useState([]);
+  const [fastSelling, setFastSelling] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales//fastSellingItems").then((response) => {
+      setFastSelling(response.data)
+    });
+  }, []);
 
   useEffect(() => {
     axios.get("http://localhost:3001/inventory/latestitems").then((response) => {
@@ -132,7 +139,7 @@ const navigateSales = () => {
 
       <div className='p-4'>
       <Card>
-        <Title>Comparison of Sales and Inventory</Title>
+        <Title>Comparison of Sales</Title>
         <LineChart
           className="mt-6"
           data={dailySales}
@@ -147,23 +154,7 @@ const navigateSales = () => {
       </div>
 
       <div className='w-1/4 p-4 ml-4 mt-4'>
-        <div className='p-4'> 
-      <Card className="max-w-xs">
-        <Title>Recently Added Items</Title>
-        <List>
-        {recentlyAddedItems.map((item) => (
-                <ListItem key={item.id}>
-                  <span>{item.itemname}</span>
-                  <span>{item.itemquantity}</span>
-                </ListItem>
-              ))}
-        </List>
-      </Card>
-      </div>
-      
-
-      
-        <div className='p-4'> 
+      <div className='p-4'> 
       <Card className="max-w-xs">
         <Title>Items for Restocking</Title>
         <List>
@@ -176,10 +167,35 @@ const navigateSales = () => {
         </List>
       </Card>
       </div>
-      </div>
       
+      <div className='p-4'> 
+      <Card className="max-w-xs">
+        <Title>Fast Selling Items</Title>
+        <List>
+        {fastSelling.map((item) => (
+                <ListItem key={item.id}>
+                  <span>{item.itemname}</span>
 
+                </ListItem>
+              ))}
+        </List>
+      </Card>
+      </div>
 
+      <div className='p-4'> 
+      <Card className="max-w-xs">
+        <Title>Recently Added Items</Title>
+        <List>
+        {recentlyAddedItems.map((item) => (
+                <ListItem key={item.id}>
+                  <span>{item.itemname}</span>
+                  <span>{item.itemquantity}</span>
+                </ListItem>
+              ))}
+        </List>
+      </Card>
+      </div>
+      </div>
     </div>
 
     

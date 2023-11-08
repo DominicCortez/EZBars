@@ -4,6 +4,7 @@ import axios from "axios";
 import  {useEffect, useState} from 'react'
 import { useNavigate} from "react-router-dom"
 import {Formik, Form, Field, ErrorMessage} from "formik";
+import { close } from '../assets'
 import * as Yup from 'yup';
 import {
   Card,
@@ -139,7 +140,7 @@ const handleClick = event => {
               <Text>{value.itemprice}</Text>
             </TableCell>
             <TableCell>
-            <button onClick={() => {deleteItem(value.id);window.location.reload(false)}}className='bg-gray-500'>Delete</button>
+            <button onClick={() => {deleteItem(value.id);window.location.reload(false)}}><img src={close}/></button>
             </TableCell>
           </TableRow>
         ))}
