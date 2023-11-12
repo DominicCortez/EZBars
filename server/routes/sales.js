@@ -7,27 +7,35 @@ const { Op } = require('sequelize');
 router.get("/dailySales", async (req, res) => {
     try {
       const today = new Date();
-      const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
   
-      // Calculate the start date as 10 days ago
+      // Calculate the start date as 4 months ago
       const startDate = new Date();
-      startDate.setDate(today.getDate() - 10);
-      const startOfDay = new Date(startDate.setHours(0, 0, 0, 0));
+      startDate.setMonth(today.getMonth() - 4); // Adjusted to cover the past 4 months
+      const startOfMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1, 0, 0, 0, 0);
   
-      const dailySales = await sales.findAll({
+      const monthlySales = await sales.findAll({
         attributes: ['itemquantity', 'itemprice', 'updatedAt'],
         where: {
           updatedAt: {
-            [Op.between]: [startOfDay, endOfDay],
+            [Op.between]: [startOfMonth, endOfMonth],
           },
         },
       });
   
-      const salesData = dailySales.map((sale) => {
-        const dateKey = sale.updatedAt.toISOString().split('T')[0]; // Use the date as the key
-        const salesForDay = sale.itemquantity * sale.itemprice;
+      const salesData = Array.from({ length: 4 }, (_, i) => {
+        const monthStartDate = new Date(startOfMonth);
+        monthStartDate.setMonth(startOfMonth.getMonth() + i);
+        const monthEndDate = new Date(monthStartDate.getFullYear(), monthStartDate.getMonth() + 1, 0, 23, 59, 59, 999);
   
-        return { day: dateKey, sales: salesForDay };
+        const monthlySalesForMonth = monthlySales
+          .filter((sale) => sale.updatedAt >= monthStartDate && sale.updatedAt <= monthEndDate)
+          .reduce((total, sale) => total + sale.itemquantity * sale.itemprice, 0);
+  
+        return {
+          month: monthStartDate.toISOString().split('T')[0],
+          sales: monthlySalesForMonth,
+        };
       });
   
       res.json(salesData);
@@ -167,14 +175,26 @@ const salesWithTotal = lastWeekSales.map((sale) => ({
 
 
 router.get("/", async (req, res) =>{
-    const listOfItems = await sales.findAll();
-    res.json(listOfItems);
+    try{
+        const listOfItems = await sales.findAll();
+        res.json(listOfItems);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 router.post("/" , async (req, res) => {
-    const salesreq = req.body;
-    await sales.create(salesreq)
-    res.json(salesreq)
+    try{
+        const salesreq = req.body;
+        await sales.create(salesreq)
+        res.json(salesreq)
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 router.get("/price", async (req, res) => {
@@ -192,34 +212,69 @@ router.get("/price", async (req, res) => {
 
 
 router.put("/itemcategory" , async (req, res) => {
-    const {newItemCategory , id} = req.body;
-    await sales.update({itemcategory: newItemCategory},{where:{id : id} })
-    res.json(newItemCategory);
+    try{
+        const {newItemCategory , id} = req.body;
+        await sales.update({itemcategory: newItemCategory},{where:{id : id} })
+        res.json(newItemCategory);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 router.put("/itemname" , async (req, res) => {
-    const {newItemName , id} = req.body;
-    await sales.update({itemname: newItemName},{where:{id : id} })
-    res.json(newItemName);
+    try{
+        const {newItemName , id} = req.body;
+        await sales.update({itemname: newItemName},{where:{id : id} })
+        res.json(newItemName);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
+
 router.put("/itemdescription" , async (req, res) => {
-    const {newItemDescription , id} = req.body;
-    await sales.update({itemdescription: newItemDescription},{where:{id : id} })
-    res.json(newItemDescription);
+    try{
+        const {newItemDescription , id} = req.body;
+        await sales.update({itemdescription: newItemDescription},{where:{id : id} })
+        res.json(newItemDescription);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 router.put("/itemnumber" , async (req, res) => {
-    const {newItemNumber , id} = req.body;
-    await sales.update({itemnumber: newItemNumber},{where:{id : id} })
-    res.json(newItemNumber);
+    try{
+        const {newItemNumber , id} = req.body;
+        await sales.update({itemnumber: newItemNumber},{where:{id : id} })
+        res.json(newItemNumber);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 router.put("/itemquantity" , async (req, res) => {
-    const {newItemQuantity , id} = req.body;
-    await sales.update({itemquantity: newItemQuantity},{where:{id : id} })
-    res.json(newItemQuantity);
+    try{
+        const {newItemQuantity , id} = req.body;
+        await sales.update({itemquantity: newItemQuantity},{where:{id : id} })
+        res.json(newItemQuantity);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
+
 router.put("/itemprice" , async (req, res) => {
-    const {newItemPrice , id} = req.body;
-    await inventory.update({itemprice: newItemPrice},{where:{id : id} })
-    res.json(newItemQuantity);
+    try{
+        const {newItemPrice , id} = req.body;
+        await inventory.update({itemprice: newItemPrice},{where:{id : id} })
+        res.json(newItemQuantity);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 router.get("/fastSellingItems", async (req, res) => {
@@ -249,12 +304,18 @@ router.get("/fastSellingItems", async (req, res) => {
 
 
 router.delete("/:id", async (req, res) => {
-    const id = req.params.id;
-    await sales.destroy({
-        where:{
-            id: id,
-        },
-    })
+    try{
+        const id = req.params.id;
+        await sales.destroy({
+            where:{
+                id: id,
+            },
+        })
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 })
 
 module.exports = router;

@@ -22,14 +22,26 @@ router.get("/lowQuantityItems", async (req, res) => {
 });
 
 router.get("/", async (req, res) =>{
-    const listOfItems = await inventory.findAll();
-    res.json(listOfItems);
+    try{
+        const listOfItems = await inventory.findAll();
+        res.json(listOfItems);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 router.post("/" , async (req, res) => {
-    const inventoryreq = req.body;
-    await inventory.create(inventoryreq)
-    res.json(inventoryreq)
+    try{
+        const inventoryreq = req.body;
+        await inventory.create(inventoryreq)
+        res.json(inventoryreq)
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 router.get("/price", async (req, res) => {
@@ -61,34 +73,68 @@ router.get("/latestItems", async (req, res) => {
 });
 
 router.put("/itemcategory" , async (req, res) => {
-    const {newItemCategory , id} = req.body;
-    await inventory.update({itemcategory: newItemCategory},{where:{id : id} })
-    res.json(newItemCategory);
+    try{
+        const {newItemCategory , id} = req.body;
+        await inventory.update({itemcategory: newItemCategory},{where:{id : id} })
+        res.json(newItemCategory);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 router.put("/itemname" , async (req, res) => {
-    const {newItemName , id} = req.body;
-    await inventory.update({itemname: newItemName},{where:{id : id} })
-    res.json(newItemName);
+    try{
+        const {newItemName , id} = req.body;
+        await inventory.update({itemname: newItemName},{where:{id : id} })
+        res.json(newItemName);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 router.put("/itemdescription" , async (req, res) => {
-    const {newItemDescription , id} = req.body;
-    await inventory.update({itemdescription: newItemDescription},{where:{id : id} })
-    res.json(newItemDescription);
+    try{
+        const {newItemDescription , id} = req.body;
+        await inventory.update({itemdescription: newItemDescription},{where:{id : id} })
+        res.json(newItemDescription);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }  
 });
 router.put("/itemnumber" , async (req, res) => {
-    const {newItemNumber , id} = req.body;
-    await inventory.update({itemnumber: newItemNumber},{where:{id : id} })
-    res.json(newItemNumber);
+    try{
+        const {newItemNumber , id} = req.body;
+        await inventory.update({itemnumber: newItemNumber},{where:{id : id} })
+        res.json(newItemNumber);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 router.put("/itemquantity" , async (req, res) => {
-    const {newItemQuantity , id} = req.body;
-    await inventory.update({itemquantity: newItemQuantity},{where:{id : id} })
-    res.json(newItemQuantity);
+    try{
+        const {newItemQuantity , id} = req.body;
+        await inventory.update({itemquantity: newItemQuantity},{where:{id : id} })
+        res.json(newItemQuantity);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 router.put("/itemprice" , async (req, res) => {
-    const {newItemPrice , id} = req.body;
-    await inventory.update({itemprice: newItemPrice},{where:{id : id} })
-    res.json(newItemQuantity);
+    try{
+        const {newItemPrice , id} = req.body;
+        await inventory.update({itemprice: newItemPrice},{where:{id : id} })
+        res.json(newItemQuantity);
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+    
 });
 
 
@@ -96,12 +142,17 @@ router.put("/itemprice" , async (req, res) => {
 
 
 router.delete("/:id", async (req, res) => {
-    const id = req.params.id;
-    await inventory.destroy({
-        where:{
-            id: id,
-        },
-    })
+    try{
+        const id = req.params.id;
+        await inventory.destroy({
+            where:{
+                id: id,
+            },
+        })
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 })
 
 module.exports = router;
