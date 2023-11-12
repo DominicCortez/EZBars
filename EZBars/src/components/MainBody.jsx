@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import  {useEffect, useState} from 'react'
 import {graph1, graph2, printer} from '../assets'
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 
@@ -12,6 +14,21 @@ import {graph1, graph2, printer} from '../assets'
 
  {/*Start of Site Body */} 
 const MainBody = () => {
+
+  const downloadAsPDF = (data, filename) => {
+    const doc = new jsPDF();
+    doc.text(`Table for ${filename}`, 10, 10);
+    
+    const headers = Object.keys(data[0]);
+    const tableData = data.map((item) => Object.values(item));
+
+    doc.autoTable({
+      head: [headers],
+      body: tableData,
+    });
+
+    doc.save(`${filename}.pdf`);
+  };
 
   const navigate = useNavigate();
 
@@ -162,7 +179,7 @@ const navigateSales = () => {
       <Card className="w-full">
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <Title style={{ marginRight: '10px' }}>Items for Restocking</Title>
-        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        <img onClick={() => downloadAsPDF(itemsForRestock, 'ItemsForRestocking')} src={printer} className='h-[15px]' alt="Printer" />
         </div>
       <List>
         {itemsForRestock.map((item) => (
@@ -178,7 +195,7 @@ const navigateSales = () => {
       <Card className="w-full">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Title style={{ marginRight: '10px' }}>Fast Selling Items</Title>
-        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        <img onClick={() => downloadAsPDF(fastSelling, 'FastSellingItems')} src={printer} className='h-[15px]' alt="Printer" />
         </div>
         <List>
         {fastSelling.map((item) => (
@@ -195,7 +212,7 @@ const navigateSales = () => {
       <Card className="w-full">
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Title style={{ marginRight: '10px' }}>Recently Added Items</Title>
-        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        <img onClick={() => downloadAsPDF(recentlyAddedItems, 'RecentlyAddedItems')} src={printer} className='h-[15px]' alt="Printer" />
         </div>
         <List>
         {recentlyAddedItems.map((item) => (
