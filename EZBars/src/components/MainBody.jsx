@@ -3,7 +3,7 @@ import { Card, Metric, Text, Title, BarChart, Subtitle, LineChart, List, ListIte
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import  {useEffect, useState} from 'react'
-import {graph1, graph2} from '../assets'
+import {graph1, graph2, printer} from '../assets'
 
 
 
@@ -100,18 +100,22 @@ const navigateSales = () => {
   return (
     <div className='flex'>
       <div className="w-1/4 p-4 ml-4 mt-4">
-        <div className='h-1/2 p-4' >
+        <div className='h-1/3 p-4' >
       <Card className="max-w-xs mx-auto h-1/2 p-4" decoration="top" decorationColor="orange" onClick={navigateToInventory}>
         <Text>Click to manage</Text>
         <Metric>Inventory</Metric>
-        <img className='relative h-[130px] mx-auto' src={graph2}/>
       </Card>
       </div>
-      <div className='h-1/2 p-4' >
+      <div className='h-1/3 p-4' >
       <Card className="max-w-xs mx-auto p-4 h-1/2" decoration="top" decorationColor="orange" onClick={navigateSales}>
         <Text>Click to manage</Text>
         <Metric>Sales</Metric>
-        <img className='relative h-[130px] mx-auto' src={graph2}/>
+      </Card>
+      </div>
+      <div className='h-1/3 p-4' >
+      <Card className="max-w-xs mx-auto h-1/2 p-4" decoration="top" decorationColor="orange" onClick={navigateToInventory}>
+        <Text>Click to Manage</Text>
+        <Metric>Wholesale Prices</Metric>
       </Card>
       </div>
       </div>
@@ -139,7 +143,7 @@ const navigateSales = () => {
 
       <div className='p-4'>
       <Card>
-        <Title>Comparison of Sales</Title>
+        <Title>Comparison of Monthly Sales</Title>
         <LineChart
           className="mt-6"
           data={dailySales}
@@ -155,22 +159,27 @@ const navigateSales = () => {
 
       <div className='w-1/4 p-4 ml-4 mt-4'>
       <div className='p-4'> 
-      <Card className="max-w-xs">
-        <Title>Items for Restocking</Title>
-        <List>
+      <Card className="w-full">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Title style={{ marginRight: '10px' }}>Items for Restocking</Title>
+        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        </div>
+      <List>
         {itemsForRestock.map((item) => (
-                <ListItem key={item.id}>
-                  <span>{item.itemname}</span>
-
-                </ListItem>
-              ))}
-        </List>
-      </Card>
-      </div>
+          <ListItem key={item.id}>
+            <span>{item.itemname}</span>
+          </ListItem>
+        ))}
+      </List>
+    </Card>
+</div>
       
       <div className='p-4'> 
-      <Card className="max-w-xs">
-        <Title>Fast Selling Items</Title>
+      <Card className="w-full">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Title style={{ marginRight: '10px' }}>Fast Selling Items</Title>
+        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        </div>
         <List>
         {fastSelling.map((item) => (
                 <ListItem key={item.id}>
@@ -183,8 +192,11 @@ const navigateSales = () => {
       </div>
 
       <div className='p-4'> 
-      <Card className="max-w-xs">
-        <Title>Recently Added Items</Title>
+      <Card className="w-full">
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Title style={{ marginRight: '10px' }}>Recently Added Items</Title>
+        <img onClick="" src={printer} className='h-[15px]' alt="Printer" />
+        </div>
         <List>
         {recentlyAddedItems.map((item) => (
                 <ListItem key={item.id}>

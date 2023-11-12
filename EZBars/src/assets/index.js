@@ -7,6 +7,7 @@ import TwitterLogo from "./TwitterLogo.svg"
 import LILogo from "./LILogo.svg"
 import graph1 from "./graph1.gif"
 import graph2 from "./graph2.gif"
+import printer from "./printer.png"
 
 export {
     logo,
@@ -18,5 +19,6 @@ export {
     LILogo,
     graph1,
     graph2,
+    printer,
     
 }
