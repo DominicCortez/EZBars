@@ -7,11 +7,6 @@ import {graph1, graph2, printer} from '../assets'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-
-
-
-
-
  {/*Start of Site Body */} 
 const MainBody = () => {
 
@@ -33,11 +28,15 @@ const MainBody = () => {
   const navigate = useNavigate();
 
   const navigateToInventory = () => {
-    navigate('/inventory');
+    navigate('/maininv');
   };
 
 const navigateSales = () => {
-    navigate('/sales');
+    navigate('/sale');
+  };
+
+  const navigateProducts = () => {
+    navigate('/product');
   };
 
   const [recentlyAddedItems, setRecentlyAddedItems] = useState([]);
@@ -48,9 +47,16 @@ const navigateSales = () => {
   const [lastWeek, setLastWeek] = useState([]);
   const [dailySales, setDailySales] = useState([]);
   const [fastSelling, setFastSelling] = useState([]);
+  const [gross, setGross] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/sales//fastSellingItems").then((response) => {
+    axios.get("http://localhost:3001/sales/gross").then((response) => {
+      setGross(response.data)
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/sales/fastSellingItems").then((response) => {
       setFastSelling(response.data)
     });
   }, []);
@@ -83,7 +89,7 @@ const navigateSales = () => {
     });
   }, []);
   useEffect(() => {
-    axios.get("http://localhost:3001/sales//lastWeekSales").then((response) => {
+    axios.get("http://localhost:3001/sales/lastWeekSales").then((response) => {
         setLastWeek(response.data)
     });
   }, []);
@@ -130,7 +136,7 @@ const navigateSales = () => {
       </Card>
       </div>
       <div className='h-1/3 p-4' >
-      <Card className="max-w-xs mx-auto h-1/2 p-4" decoration="top" decorationColor="orange" onClick={navigateToInventory}>
+      <Card className="max-w-xs mx-auto h-1/2 p-4" decoration="top" decorationColor="orange" onClick={navigateProducts}>
         <Text>Click to Manage</Text>
         <Metric>Wholesale Prices</Metric>
       </Card>
@@ -222,6 +228,9 @@ const navigateSales = () => {
                 </ListItem>
               ))}
         </List>
+      </Card>
+      <Card className='p-4 flex justify-center items-center'>
+      <button onClick={() => downloadAsPDF(gross, 'GrossSales')} className=' pt-4 px-8  py-3 rounded-md bg-[#FE8C37] text-white font-bold shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1'>Print Monthly Gross Sales</button>
       </Card>
       </div>
       </div>

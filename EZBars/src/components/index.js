@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from './SignupForm'
 import NavbarMain from './NavbarMain';
 import MainBody from './MainBody'
+import Wholesale from './Wholesale'
 
 export {
 Navbar,
@@ -16,4 +17,5 @@ LoginForm,
 SignupForm,
 NavbarMain,
 MainBody,
+Wholesale,
 }

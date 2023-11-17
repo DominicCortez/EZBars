@@ -8,6 +8,7 @@ import Post from './pages/Post'
 import DisplayInventory from './pages/DisplayInventory';
 import MainMenu from './pages/MainMenu';
 import Sales from './pages/Sales';
+import ProductsPrice from './pages/ProductsPrice';
 
 const App = () => {
   return (
@@ -20,8 +21,9 @@ const App = () => {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/main" element={<MainMenu/>}/>
         <Route path="/select/:id" element={<Post/>}/>
-        <Route path="/inventory" element={<DisplayInventory/>}/> 
-        <Route path="/sales" element={<Sales/>}/> 
+        <Route path="/maininv" element={<DisplayInventory/>}/> 
+        <Route path="/sale" element={<Sales/>}/> 
+        <Route path="/product" element={<ProductsPrice/>}/> 
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
       </BrowserRouter>
