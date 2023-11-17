@@ -6,46 +6,43 @@ const { Op } = require('sequelize');
 
 router.get("/dailySales", async (req, res) => {
     try {
-      const today = new Date();
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
-  
-      // Calculate the start date as 4 months ago
-      const startDate = new Date();
-      startDate.setMonth(today.getMonth() - 4); // Adjusted to cover the past 4 months
-      const startOfMonth = new Date(startDate.getFullYear(), startDate.getMonth(), 1, 0, 0, 0, 0);
-  
-      const monthlySales = await sales.findAll({
-        attributes: ['itemquantity', 'itemprice', 'updatedAt'],
-        where: {
-          updatedAt: {
-            [Op.between]: [startOfMonth, endOfMonth],
-          },
-        },
-      });
-  
-      const salesData = Array.from({ length: 4 }, (_, i) => {
-        const monthStartDate = new Date(startOfMonth);
-        monthStartDate.setMonth(startOfMonth.getMonth() + i);
-        const monthEndDate = new Date(monthStartDate.getFullYear(), monthStartDate.getMonth() + 1, 0, 23, 59, 59, 999);
-  
-        const monthlySalesForMonth = monthlySales
-          .filter((sale) => sale.updatedAt >= monthStartDate && sale.updatedAt <= monthEndDate)
-          .reduce((total, sale) => total + sale.itemquantity * sale.itemprice, 0);
-  
-        return {
-          month: monthStartDate.toISOString().split('T')[0],
-          sales: monthlySalesForMonth,
-        };
-      });
-  
-      res.json(salesData);
+        const today = new Date();
+        const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        // Calculate the start date as 5 months ago to include the current month and the previous four months
+        const startDate = new Date(today.getFullYear(), today.getMonth() - 5, 1, 0, 0, 0, 0);
+
+        const monthlySales = await sales.findAll({
+            attributes: ['itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.between]: [startDate, endOfMonth],
+                },
+            },
+        });
+
+        const salesData = Array.from({ length: 6 }, (_, i) => {
+            const monthStartDate = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1, 0, 0, 0, 0);
+            const monthEndDate = new Date(monthStartDate.getFullYear(), monthStartDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+            const monthlySalesForMonth = monthlySales
+                .filter((sale) => sale.updatedAt >= monthStartDate && sale.updatedAt <= monthEndDate)
+                .reduce((total, sale) => total + sale.itemquantity * sale.itemprice, 0);
+
+            return {
+                month: monthStartDate.toISOString().split('T')[0],
+                sales: monthlySalesForMonth,
+            };
+        });
+
+        res.json(salesData);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
-  
-  
+});
+
+
 
 router.get("/todaySales", async (req, res) => {
     try {
@@ -317,5 +314,50 @@ router.delete("/:id", async (req, res) => {
     }
     
 })
+
+router.get("/gross", async (req, res) => {
+    try {
+        const today = new Date();
+
+        // Calculate the start date as 5 months ago to include the current month and the previous four months
+        const startDate = new Date(today.getFullYear(), today.getMonth() - 5, 1, 0, 0, 0, 0);
+
+        const monthlySales = await sales.findAll({
+            attributes: ['itemquantity', 'itemprice', 'updatedAt'],
+            where: {
+                updatedAt: {
+                    [Op.gte]: startDate,
+                },
+            },
+        });
+
+        const salesAnalysisData = [];
+        for (let i = 0; i < 6; i++) {
+            const monthStartDate = new Date(startDate.getFullYear(), startDate.getMonth() + i, 1, 0, 0, 0, 0);
+            const monthEndDate = new Date(monthStartDate.getFullYear(), monthStartDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+            const monthlySalesForMonth = monthlySales
+                .filter((sale) => sale.updatedAt >= monthStartDate && sale.updatedAt <= monthEndDate)
+                .reduce((total, sale) => total + sale.itemquantity * sale.itemprice, 0);
+
+            if (monthlySalesForMonth > 0) {
+                const income = 0.09 * monthlySalesForMonth;
+                const difference = monthlySalesForMonth - income;
+
+                salesAnalysisData.push({
+                    month: (monthStartDate.getMonth() + 1).toString(), // Adjust here
+                    monthlySales: monthlySalesForMonth,
+                    income: income,
+                    cost: difference,
+                });
+            }
+        }
+
+        res.json(salesAnalysisData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;

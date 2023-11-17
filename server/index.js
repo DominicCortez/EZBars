@@ -14,6 +14,8 @@ const inventoryRouter = require('./routes/inventory')
 app.use("/inventory", inventoryRouter);
 const salesRouter = require('./routes/sales')
 app.use("/sales", salesRouter);
+const productsRouter = require('./routes/products')
+app.use("/products",productsRouter)
 
 db.sequelize.sync().then(() =>{
 app.listen(3001, () => {
