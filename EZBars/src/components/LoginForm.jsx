@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   const login = () => {
     const data = {useremail : username, userpassword:password}
-    axios.post("http://localhost:3001/users/login",data ).then((response) =>{
+    axios.post("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/users/login",data ).then((response) =>{
       if(response.data.error) {
         alert(response.data.error);
       } else {

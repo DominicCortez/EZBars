@@ -18,7 +18,7 @@ const SignupForm = () => {
     })
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/users", data).then((response) => {
+        axios.post("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/users", data).then((response) => {
       navigate('/login')
     });
     };

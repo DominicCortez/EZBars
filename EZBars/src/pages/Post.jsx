@@ -8,7 +8,7 @@ const Post = () => {
   const [postObject, setPostObject] = useState({});
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/users/byId/${id}`).then((response) => {
+        axios.get(`http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/users/byId/${id}`).then((response) => {
         setPostObject(response.data);
     });
     })
