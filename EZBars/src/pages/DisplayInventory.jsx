@@ -26,7 +26,7 @@ const DisplayInventory = () => {
     let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory").then((response) => {
         setListOfItems(response.data);
     });
   }, []);
@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const onSubmit = (data) => {
-    axios.post("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory", data, newItemCategory).then((response) => {
+    axios.post("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory", data, newItemCategory).then((response) => {
     const itemToAdd = {newItemCategory}
     setListOfItems([...listOfItems, itemToAdd])
     window.location.reload(false)
@@ -59,7 +59,7 @@ const onSubmit = (data) => {
 };
 
 const deleteItem = (id) => {
-  axios.delete(`http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/${id}`).then(()=>{
+  axios.delete(`http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/${id}`).then(()=>{
     
   })
 }
@@ -67,29 +67,29 @@ const deleteItem = (id) => {
 const editItem = (option,id) => {
   if (option === "itemcategory"){
     let newItemCategory = prompt("Enter new Category: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemcategory",{newItemCategory : newItemCategory, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemcategory",{newItemCategory : newItemCategory, id : id})
     window.location.reload(false)
   }else if (option === "itemname"){
     let newItemName = prompt("Enter new Item Name: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemname",{newItemName : newItemName, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemname",{newItemName : newItemName, id : id})
     window.location.reload(false)
   }
   else if (option === "itemdescription"){
     let newItemDescription = prompt("Enter new Item Description: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemdescription",{newItemDescription : newItemDescription, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemdescription",{newItemDescription : newItemDescription, id : id})
     window.location.reload(false)
   }
   else if (option === "itemnumber"){
     let newItemNumber = prompt("Enter new ItemNumber: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemnumber",{newItemNumber : newItemNumber, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemnumber",{newItemNumber : newItemNumber, id : id})
     window.location.reload(false)
   }else if(option === "itemquantity"){
     let newItemQuantity = prompt("Enter new Item Quantity: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemquantity",{newItemQuantity : newItemQuantity, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemquantity",{newItemQuantity : newItemQuantity, id : id})
     window.location.reload(false)
   }else{
     let newItemPrice = prompt("Enter new Item Price: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/itemprice",{newItemPrice : newItemPrice, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/itemprice",{newItemPrice : newItemPrice, id : id})
     window.location.reload(false)
   }
 }

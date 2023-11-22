@@ -50,52 +50,52 @@ const navigateSales = () => {
   const [gross, setGross] = useState([]);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/gross").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/gross").then((response) => {
       setGross(response.data)
     });
   }, []);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/fastSellingItems").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/fastSellingItems").then((response) => {
       setFastSelling(response.data)
     });
   }, []);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/latestitems").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/latestitems").then((response) => {
         setRecentlyAddedItems(response.data)
     });
   }, []);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/inventory/lowQuantityItems").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/inventory/lowQuantityItems").then((response) => {
         setItemsForRestock(response.data)
     });
   }, []);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/todaySales").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/todaySales").then((response) => {
         setToday(response.data)
     });
   }, []);
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/yesterdaySales").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/yesterdaySales").then((response) => {
         setYesterday(response.data)
     });
   }, []);
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/thisWeekSales").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/thisWeekSales").then((response) => {
         setThisWeek(response.data)
     });
   }, []);
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/lastWeekSales").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/lastWeekSales").then((response) => {
         setLastWeek(response.data)
     });
   }, []);
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/sales/dailySales").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/sales/dailySales").then((response) => {
         setDailySales(response.data)
     });
   }, []);

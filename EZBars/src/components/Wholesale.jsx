@@ -26,7 +26,7 @@ const Wholesale = () => {
     let navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products").then((response) => {
+    axios.get("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products").then((response) => {
         setListOfItems(response.data);
     });
   }, []);
@@ -47,7 +47,7 @@ const validationSchema = Yup.object().shape({
 })
 
 const onSubmit = (data) => {
-    axios.post("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products", data, newItemSupplier).then((response) => {
+    axios.post("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products", data, newItemSupplier).then((response) => {
     const itemToAdd = {newItemSupplier}
     setListOfItems([...listOfItems, itemToAdd])
     window.location.reload(false)
@@ -55,7 +55,7 @@ const onSubmit = (data) => {
 };
 
 const deleteItem = (id) => {
-  axios.delete(`http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products/${id}`).then(()=>{
+  axios.delete(`http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products/${id}`).then(()=>{
     
   })
 }
@@ -63,20 +63,20 @@ const deleteItem = (id) => {
 const editItem = (option,id) => {
   if (option === "itemsupplier"){
     let newItemSupplier = prompt("Enter new Supplier: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products/itemsupplier",{newItemSupplier : newItemSupplier, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products/itemsupplier",{newItemSupplier : newItemSupplier, id : id})
     window.location.reload(false)
   }else if (option === "itemname"){
     let newItemName = prompt("Enter new Item Name: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products/itemname",{newItemName : newItemName, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products/itemname",{newItemName : newItemName, id : id})
     window.location.reload(false)
   }
   else if (option === "itemdescription"){
     let newItemDescription = prompt("Enter new Item Description: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products/itemdescription",{newItemDescription : newItemDescription, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products/itemdescription",{newItemDescription : newItemDescription, id : id})
     window.location.reload(false)
   }else{
     let newItemPrice = prompt("Enter new Item Price: ")
-    axios.put("http://ec2-13-211-83-146.ap-southeast-2.compute.amazonaws.com/api/products/itemprice",{newItemPrice : newItemPrice, id : id})
+    axios.put("http://ec2-3-27-189-2.ap-southeast-2.compute.amazonaws.com/api/products/itemprice",{newItemPrice : newItemPrice, id : id})
     window.location.reload(false)
   }
 }
