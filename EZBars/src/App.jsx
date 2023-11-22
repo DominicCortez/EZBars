@@ -9,6 +9,9 @@ import DisplayInventory from './pages/DisplayInventory';
 import MainMenu from './pages/MainMenu';
 import Sales from './pages/Sales';
 import ProductsPrice from './pages/ProductsPrice';
+import MobileScanner from './pages/MobileScanner';
+import AddOrUpdate from './pages/AddOrUpdate';
+import Sell from './pages/Sell';
 
 const App = () => {
   return (
@@ -23,7 +26,10 @@ const App = () => {
         <Route path="/select/:id" element={<Post/>}/>
         <Route path="/maininv" element={<DisplayInventory/>}/> 
         <Route path="/sale" element={<Sales/>}/> 
-        <Route path="/product" element={<ProductsPrice/>}/> 
+        <Route path="/product" element={<ProductsPrice/>}/>
+        <Route path="/mobile" element={<MobileScanner/>}/>
+        <Route path="/mobileadd" element={<AddOrUpdate/>}/>
+        <Route path="/mobilesell" element={<Sell/>}/>
         <Route path="*" element={<ErrorPage/>}/>
       </Routes>
       </BrowserRouter>
